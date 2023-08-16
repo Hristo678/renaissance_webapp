@@ -19,7 +19,7 @@
 
 .card {
     position: relative;
-    width: 17rem;
+    width: 19rem;
     height: 23rem;
     background-color:var(--primary);
     color: white;
@@ -36,37 +36,6 @@
     transform: scale(1.05);
 }
 
-/* .card::before, .card::after {
-    position: absolute;
-    content: "";
-    background-color: var(--secondary);
-    border-radius: 50%;
-    transition: .5s ease-in-out;
-    z-index: 100;
-}
-
-.card::before {
-    top: -6%;
-    right: -6%;
-    width: 9rem;
-    height: 9rem;
-}
-
-.card::after {
-    bottom: -6%;
-    left: -6%;
-    width: 5rem;
-    height: 5rem;
-} */
-
-/* .card:hover::before {
-    transform: scale(1.8);
-}
-
-.card:hover::after {
-    transform: scale(0);
-} */
-
 .card-content {
     position: absolute;
     top:0;
@@ -81,9 +50,8 @@
     z-index: 200;
 }
 
-.card-img, 
-.card-title {
-    transform: translateY(-4rem);
+.card-img{
+    transform: translateY(-2.5rem);
     transition: .5s ease-in-out;
 }
 
@@ -94,13 +62,13 @@
 
 .card-title {
     font-size: 1rem;
-    text-transform: capitalize;
-    transition-delay: .1s;
+    /* text-transform: capitalize;
+    transition-delay: .1s; */
 }
 
 .card-body, 
 .card-footer {
-    transform: translateY(12rem);
+    transform: translateY(17.2rem);
     transition: .5s ease-in-out;
 }
 
@@ -114,11 +82,27 @@
     transition-delay: .2s;
 }
 
-.card:hover .card-img,
-.card:hover .card-title,
-.card:hover .card-body,
+
 .card:hover .card-footer {
-    transform: translateY(0);
+    transform: translateY(3rem);
+}
+
+.card:hover .card-body{
+    transform: translateY(-2rem);
+
+}
+
+.card:hover .card-img{
+    transform: translateY(0rem);
+}
+
+.card:hover .card-img{
+    -webkit-filter: brightness(50%);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
 }
 
 .card-footer {
@@ -134,11 +118,17 @@
     font: bolder 1.5rem sans-serif;
 }
 
+.product-name{
+    font: bolder 1.5rem sans-serif;
+
+}
+
+.unitMass{
+   justify-content: center;
+}
+
 .btn {
-    padding: 1rem 2rem;
-    background-color: unset;
-    border: none;
-    outline: none;
+    padding: 1rem ;
     border-radius: 2rem;
     color: #fff;
     cursor: pointer;
@@ -148,6 +138,75 @@
     background-color: var(--secondary);
 }
 
-.btn-border {
-    border: .1rem solid var(--secondary);
+.quantityBtnsDiv{
+    padding-left: 30px;
 }
+
+#quantityText{
+    padding-bottom: 0.4rem;
+}
+
+#add-to-card-btn:hover{
+    border-color: #00A859;
+    background-color: #00A859;
+}
+
+.addOrRemoveIcon:hover{
+    border-color: white;
+    background-color: white;
+    color: black;
+}
+
+.addOrRemoveIcon{
+    border-radius: 1rem;
+    border: 2px solid white;
+}
+
+
+/* Dropup Button */
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropup content */
+  .dropup {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropup content (Hidden by Default) */
+  .dropup-content {
+    display: none;
+    position: absolute;
+    bottom: 80px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropup */
+  .dropup-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropup links on hover */
+  .dropup-content a:hover {background-color: #ddd}
+  
+  /* Show the dropup menu on hover */
+  .dropup:hover .dropup-content {
+    display: block;
+  }
+  
+  /* Change the background color of the dropup button when the dropup content is shown */
+  .dropup:hover .dropbtn {
+    background-color: #2980B9;
+  }
+
