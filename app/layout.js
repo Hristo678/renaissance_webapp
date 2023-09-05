@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body  className={`bg-primary w-full overflow-x-hidden ${inter.className}`} id='main-div'>
+      <body  className={`bg-primary  overflow-x-hidden ${inter.className}`} id='main-div'>
         <Provider>
           <main >
             <div  >

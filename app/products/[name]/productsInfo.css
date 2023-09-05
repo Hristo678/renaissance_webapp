@@ -1,0 +1,19 @@
+.card-img {
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    cursor: pointer;
+    position: relative;
+    width: 19rem;
+    height: 23rem;
+    background-color:var(--primary);
+    color: white;
+    border-radius: 1rem;
+    border: .1rem solid transparent;
+    overflow: hidden;
+    box-shadow: 0 .2rem .6rem #0003;
+    transition: .5s ease-in-out;
+    z-index: 1;
+}

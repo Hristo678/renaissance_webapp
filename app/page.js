@@ -6,11 +6,11 @@ import './globals.css'
 const Home = () => {
 
   return (
-    <div >
+    <div>
       <section >
 
         <div className={`${styles.flexStart} `}>
-          <div className={`${styles.boxWidth} `}>
+          <div className={`${styles.boxWidth} ${styles.paddingX} ${styles.flexStart}`}>
             <Hero />
           </div>
         </div>

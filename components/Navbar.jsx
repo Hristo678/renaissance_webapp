@@ -5,6 +5,7 @@ import { renaissanceTransparent, smoke3, smoke4 } from "@public/assets";
 import { navLinks } from "../constants";
 import Image from "next/image";
 import styles from "@styles/style";
+import Link from "next/link";
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -28,14 +29,14 @@ const Navbar = () => {
             } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
             onClick={() => setActive(nav.title)}
           >
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            <Link href={nav.link}>{nav.title}</Link>
           </li>
         ))}
       </ul>
 
-      {/* <div className="sm:hidden flex flex-1 justify-end items-center">
+      <div className="sm:hidden flex flex-1 justify-end items-center">
         <img
-          src={toggle ? close : menu}
+          src={toggle ? 'close' : "menu"}
           alt="menu"
           className="w-[28px] h-[28px] object-contain"
           onClick={() => setToggle(!toggle)}
@@ -55,12 +56,12 @@ const Navbar = () => {
                 } ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
                 onClick={() => setActive(nav.title)}
               >
-                <a href={`#${nav.id}`}>{nav.title}</a>
+                <a href={nav.link}>{nav.title}</a>
               </li>
             ))}
           </ul>
         </div>
-      </div> */}
+      </div>
     </nav>
     </div>
   );

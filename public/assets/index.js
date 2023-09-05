@@ -11,7 +11,7 @@ import lime from './lime.jpg';
 import black_currant from './black_currant.jpg';
 import strawberry from './strawberry.jpg';
 import watermelon from './watermelon.jpg';
-import RedBull from './RedBull.png';
+import RedBull from './RedBull.jpg';
 
 export {
     renaissance,

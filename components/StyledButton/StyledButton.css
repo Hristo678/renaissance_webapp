@@ -1,0 +1,11 @@
+.btn {
+    padding: 6px ;
+    border-radius: 2rem;
+    color: #fff;
+    cursor: pointer;
+    min-height: 50px;
+    min-width: 100px;
+}
+
+
+

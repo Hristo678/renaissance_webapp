@@ -1,181 +1,123 @@
 "use client"
 
-import styles from "@styles/style";
-import {
-    mango, mango2, banana, lemonade,
-    lime, strawberry, watermelon, black_currant, RedBull
-} from "@public/assets";
 import Image from "next/image";
 import './products.css';
-import { Autocomplete, Box, TextField } from "@mui/material";
-import styled from "@emotion/styled";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useEffect, useState } from "react";
+import StyledButton from "@components/StyledButton/StyledButton";
+import EuroIcon from '@mui/icons-material/Euro';
+import axios from "axios";
 
 
 const Products = () => {
 
-    const [mass, setMass] = useState('25g')
-    const priceAndMassConst = { '25g': 5, '100g': 18, '200g': 34, '500g': 85 }
+    const priceAndMassConst = { '25g': 4.99, '100g': 17.99, '200g': 33.99, '500g': 84.99 }
     const [priceAndMass, setPriceAndMass] = useState({})
-    const [quantity, setQuantity] = useState(0)
     const [products, setProducts] = useState({})
-    const [massMango, setMassMango] = useState('25') 
-    const [flavourSelectedMass, setFlavourSelectedMass] = useState({ 'Mango':'25g', 'RedBull': '25g', 'Watermelon': '25g' })
-    let key = '1'
+    const [flavourSelectedMass, setFlavourSelectedMass] = useState({ 'Mango': '25g', 'RedBull': '25g', 'Watermelon': '25g', 'Lime': '25g', 'Strawberry': '25g', 'Lemonade': '25g', })
 
     useEffect(() => {
-        const temp = { 'Mango': { ...priceAndMassConst }, 'RedBull': { ...priceAndMassConst }, 'Watermelon': { ...priceAndMassConst } }
-        setPriceAndMass(temp)
-        let productsTemp = {}
-        Object.keys(temp).forEach(k => {
-            products[k] = { price: temp[k]['25g'], mass: '25g', image: mango2 }
-        })
-        setProducts(products)
+        if (Object.keys(products).length === 0) {
+            axios.get('http://localhost:3000/api/products').then(result => {
+                const updatedProducts = {}
+                result.data.forEach(p => {
+
+                    updatedProducts[p.name] = { price: p.pricePerMass['25g'], mass: '25g', image: p.image, quantity: 0, name: [p.name] }
+                })
+                setProducts(updatedProducts)
+            })
+
+            const temp = {
+                'Mango': { ...priceAndMassConst }, 'RedBull': { ...priceAndMassConst }, 'Watermelon': { ...priceAndMassConst }, 'Lime': { ...priceAndMassConst },
+                'Lemonade': { ...priceAndMassConst }, 'Strawberry': { ...priceAndMassConst }
+            }
+            setPriceAndMass(temp)
+        }
 
 
-    }, [flavourSelectedMass, products])
+    }, [products])
 
-    const handleClick = async (e, m, p) => {
-        console.log(m)
-        console.log(flavourSelectedMass)
-        key = key + 1
-        flavourSelectedMass[m] = '26g'
+    const handleMassChange = (m, p) => {
+        flavourSelectedMass[p] = m
         setFlavourSelectedMass(flavourSelectedMass)
-        products[m].mass = '26g'
-        setProducts(products)
+
+        products[p].mass = m
+        let temp = products[p]
+        temp.mass = m
+        setProducts((prev) => {
+            return { ...prev, [p]: temp }
+        })
     }
-console.log(products)
-    return  (
-        // <section id="home" className={`flex md:flex-row flex-col ${styles.paddingY}`}>
-        <section class="slider" id="slider">
-            <div class="card">
-                <Image src={mango2} alt="" class="card-img" />
-                <div class="card-content">
 
-                    <div class="card-body">
-                        <h1 class="product-name">Mango</h1>
-                        <div class="card-star">
+    const handleQunatityChange = (action, product) => {
+        let tempProduct = products[product]
+        action === 'increase' ? setProducts(prev => {
+            tempProduct.quantity = tempProduct.quantity + 1
+            return { ...prev, [product]: tempProduct }
+        }) :
+            setProducts(prev => {
+                tempProduct.quantity = tempProduct.quantity - 1
+                return { ...prev, [product]: tempProduct }
+            })
+    }
 
-                        </div>
-                        <p class="card-price">$650.99</p>
-                    </div>
-                    <div class="card-footer flex">
-                        <div class="flex ">
-                            {/* <button class="btn btn-success">Buy Now</button> */}
-                            <button id="add-to-card-btn" className="btn btn-border border-2 ">Add To Cart</button>
-                            <div >
-                                <button id="quantityText" class="btn btn-border pb-2">Quantity: {quantity}</button>
-                                <div className="quantityBtnsDiv flex">
-                                    <div onClick={() => setQuantity(prev => prev + 1)} className="cursor-pointer flex pr-2">
-                                        <AddIcon className="cursor-pointer addOrRemoveIcon" />
-
-                                    </div>
-                                    <RemoveIcon onClick={() => setQuantity(prev => prev - 1)} className="cursor-pointer addOrRemoveIcon" />
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="dropup">
-                            <div>
-                                <button class="dropbtn">Dropup</button>
-
-                            </div>
-                            <div class="dropup-content">
-                                <a href="#">Link 1</a>
-                                <a href="#">Link 2</a>
-                                <a href="#">Link 3</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            {Object.keys(products).length > 0 && Object.keys(products).map((p) => {
+    return (
+        <section className="slider bg-var(--bg) p-4 pt-40 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-8 items-center font-sans" id="slider">
+            {Object.keys(products).length > 0 ? Object.keys(products).map((p, index) => {
                 return (
-                    <div class="card" >
-                        <Image src={products[p].image} class="card-img" />
+                    <div className="card" key={index + p}>
+                        <Image onClick={() => console.log('clie')} src={'/assets/' + products[p].image} width={200} height={300} alt="sample" class="card-img" />
                         <div class="card-content">
-
                             <div class="card-body">
                                 <h1 class="product-name">{p}</h1>
                                 <div class="card-star">
-
                                 </div>
-                                <p class="card-price">{products[p].price}</p>
+                                <div className="flex">
+                                    <p class="card-price">{products[p].price}</p>
+                                    <EuroIcon sx={{ color: '#FFD700' }} />
+                                </div>
                             </div>
-                            <div class="card-footer flex">
+
+                            <div class="card-footer">
+                                <div className="flex items-center pb-2 justify-center">
+                                    <StyledButton title={'More...'} hoverColor={'bg-[#00A859]'} />
+                                </div>
                                 <div class=" flex">
-                                    {/* <button class="btn btn-success">Buy Now</button> */}
-                                    <button id="add-to-card-btn flex" className="btn btn-border border-2 ">Add To Cart</button>
-                                    <div >
-                                        <button id="quantityText" class="btn btn-border pb-2 flex">Quantity: {quantity}</button>
-                                        <div className="quantityBtnsDiv flex">
-                                            <div onClick={() => setQuantity(prev => prev + 1)} className="cursor-pointer flex pr-2">
-                                                <AddIcon className="cursor-pointer addOrRemoveIcon" />
+                                    <div class=" flex">
+                                        <StyledButton title={'Add To Card'} hoverColor={'bg-[#00A859]'} />
+                                        <div className="pl-1">
+                                            <p id="quantityText" class="btn btn-border pb-2 flex">Quantity: {products[p].quantity}</p>
+                                            <div className="quantityBtnsDiv flex">
+                                                <div onClick={() => handleQunatityChange('increase', p)} className="cursor-pointer flex pr-2">
+                                                    <AddIcon className="cursor-pointer addOrRemoveIcon" />
 
+                                                </div>
+                                                <RemoveIcon onClick={() => handleQunatityChange('decrease', p)} className="cursor-pointer addOrRemoveIcon" />
                                             </div>
-                                            <RemoveIcon onClick={() => setQuantity(prev => prev - 1)} className="cursor-pointer addOrRemoveIcon" />
                                         </div>
                                     </div>
 
-                                </div>
-
-                                <div className="unitMass flex pl-6">
-                                    <div class="dropup">
-                                        <div>
-                                            <span class="dropbtn " key={products[p]}>{products[p].mass}</span>
-
-                                        </div>
-                                        <div class="dropup-content">
-                                            {masses.map(m => <a onClick={  () =>  handleClick(m, p)} > {m}</a>)}
-
+                                    <div className="unitMass flex pl-1">
+                                        <div class="dropup">
+                                            <div>
+                                                <button className="dropbtn bg-sky-700 hover:bg-sky-700" key={products[p]}>{products[p].mass}</button>
+                                            </div>
+                                            <div class="dropup-content">
+                                                {masses.map(m => <a onClick={() => handleMassChange(m, p)} > {m}</a>)}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 )
-            })}
-
+            }) : <div>Loading</div>}
         </section>
     );
 };
 
-
-
-
-
-
-export const WhiteBorderTextField = styled(TextField)(({ theme }) => ({
-    '& label.Mui-focused': {
-        color: 'white',
-    },
-    '& .MuiInput-underline:after': {
-        borderBottomColor: 'white',
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderColor: 'white',
-            color: 'white'
-        },
-        '&:hover fieldset': {
-            borderColor: 'white',
-            color: 'white'
-
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: 'black',
-
-        },
-    }
-}));
 
 const masses = ['25g', '100g', '200g', '500g']
 
