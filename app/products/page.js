@@ -5,9 +5,10 @@ import './products.css';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useEffect, useState } from "react";
-import StyledButton from "@components/StyledButton/StyledButton";
+import {StyledAddButton, StyledDecreaseQunatity, StyledIncreaseQunatity } from "@components/StyledButton/StyledButton";
 import EuroIcon from '@mui/icons-material/Euro';
 import axios from "axios";
+import Link from "next/link";
 
 
 const Products = () => {
@@ -22,7 +23,6 @@ const Products = () => {
             axios.get('http://localhost:3000/api/products').then(result => {
                 const updatedProducts = {}
                 result.data.forEach(p => {
-
                     updatedProducts[p.name] = { price: p.pricePerMass['25g'], mass: '25g', image: p.image, quantity: 0, name: [p.name] }
                 })
                 setProducts(updatedProducts)
@@ -34,8 +34,6 @@ const Products = () => {
             }
             setPriceAndMass(temp)
         }
-
-
     }, [products])
 
     const handleMassChange = (m, p) => {
@@ -67,7 +65,7 @@ const Products = () => {
             {Object.keys(products).length > 0 ? Object.keys(products).map((p, index) => {
                 return (
                     <div className="card" key={index + p}>
-                        <Image onClick={() => console.log('clie')} src={'/assets/' + products[p].image} width={200} height={300} alt="sample" class="card-img" />
+                        <Image src={'/assets/' + products[p].image} width={200} height={300} alt="sample" class="card-img" />
                         <div class="card-content">
                             <div class="card-body">
                                 <h1 class="product-name">{p}</h1>
@@ -81,23 +79,27 @@ const Products = () => {
 
                             <div class="card-footer">
                                 <div className="flex items-center pb-2 justify-center">
-                                    <StyledButton title={'More...'} hoverColor={'bg-[#00A859]'} />
+                                    <a  href={'/products/' + p} >
+                                    <StyledAddButton title={'More...'} hoverColor={'green'} />
+
+                                    </a>
                                 </div>
                                 <div class=" flex">
                                     <div class=" flex">
-                                        <StyledButton title={'Add To Card'} hoverColor={'bg-[#00A859]'} />
+                                        <StyledAddButton title={'Add To Card'} hoverColor={'green'} />
                                         <div className="pl-1">
-                                            <p id="quantityText" class="btn btn-border pb-2 flex">Quantity: {products[p].quantity}</p>
+                                            <p id="quantityText" class=" pb-2 pr-2 pl-2 flex">Quantity: {products[p].quantity}</p>
                                             <div className="quantityBtnsDiv flex">
-                                                <div onClick={() => handleQunatityChange('increase', p)} className="cursor-pointer flex pr-2">
-                                                    <AddIcon className="cursor-pointer addOrRemoveIcon" />
+                                                <div onClick={() => handleQunatityChange('increase', p)} className="flex pr-2">
+                                                    <StyledIncreaseQunatity/>
+                                                </div>
+                                                <div  onClick={() => handleQunatityChange('decrease', p)} className="flex pr-2">
+                                                <StyledDecreaseQunatity />
 
                                                 </div>
-                                                <RemoveIcon onClick={() => handleQunatityChange('decrease', p)} className="cursor-pointer addOrRemoveIcon" />
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className="unitMass flex pl-1">
                                         <div class="dropup">
                                             <div>

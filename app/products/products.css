@@ -60,7 +60,7 @@
 
 .card-body, 
 .card-footer {
-    transform: translateY(16.5rem);
+    transform: translateY(17rem);
     transition: .5s ease-in-out;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .card:hover .card-body{
-    transform: translateY(-3.5rem);
+    transform: translateY(-3rem);
 
 }
 
